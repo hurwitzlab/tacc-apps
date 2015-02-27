@@ -1,0 +1,170 @@
+{
+    "available": true,
+    "checkpointable": false,
+    "defaultMemoryPerNode": 32,
+    "defaultProcessorsPerNode": 16,
+    "defaultMaxRunTime": "08:00:00",
+    "defaultNodeCount": 1,
+    "defaultQueue": "serial",
+    "deploymentPath": "kyclark/applications/metavelvet-0.0.1/stampede",
+    "deploymentSystem": "data.iplantcollaborative.org",
+    "executionSystem": "stampede-02232015-1013-kyclark",
+    "executionType": "HPC",
+    "helpURI": "http://metavelvet.dna.bio.keio.ac.jp/MV.html",
+    "label": "MetaVelvet Assembly",
+    "longDescription": "Built using metavelvet 1.2.02",
+    "modules": [],
+    "name": "kyclark-metavelvet",
+    "ontology": [
+        "http://sswapmeet.sswap.info/agave/apps/Application"
+    ],
+    "parallelism": "SERIAL",
+    "shortDescription": "Run Metavelvet assembler",
+    "tags": [
+        "assembler",
+        "NGS"
+    ],
+    "templatePath": "metavelvet.template",
+    "testPath": "test-run.sh",
+    "version": "0.0.1",
+    "inputs": [
+        {
+            "id": "inputTarball",
+            "value": {
+                "default": "input.tgz",
+                "order": 0,
+                "required": true,
+                "validator": "",
+                "visible": true
+            },
+            "semantics": {
+                "ontology": [],
+                "minCardinality": 1,
+                "fileTypes": [
+                    "raw-0"
+                ]
+            },
+            "details": {
+                "description": "",
+                "label": "Tarball of input data",
+                "argument": null,
+                "showArgument": false
+            }
+        }
+    ],
+    "parameters": [
+        {
+            "id": "kmerSize",
+            "value": {
+                "default": 51,
+                "order": 0,
+                "required": true,
+                "type": "number",
+                "validator": "",
+                "visible": true
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:integer"
+                ]
+            },
+            "details": {
+                "description": "",
+                "label": "k-mer size",
+                "argument": null,
+                "showArgument": false
+            }
+        },
+        {
+            "id": "insLength",
+            "value": {
+                "default": 260,
+                "order": 1,
+                "required": true,
+                "type": "number",
+                "validator": "",
+                "visible": true
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:integer"
+                ]
+            },
+            "details": {
+                "description": null,
+                "label": "Insert length",
+                "argument": null,
+                "showArgument": false
+            }
+        },
+        {
+            "id": "inputFileFormat",
+            "value": {
+                "default": "fasta",
+                "order": 2,
+                "required": true,
+                "type": "string",
+                "validator": "",
+                "visible": true
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            },
+            "details": {
+                "description": null,
+                "label": "Input file format (fasta, fastq, fasta.gz, fastq.gz, sam, bam, eland, gerald)",
+                "argument": null,
+                "showArgument": false
+            }
+        },
+        {
+            "id": "inputReadCategory",
+            "value": {
+                "default": "short",
+                "order": 2,
+                "required": true,
+                "type": "string",
+                "validator": "",
+                "visible": true
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            },
+            "details": {
+                "description": null,
+                "label": "Input read category (short, shortPaired, short2, shortPaired2, long, longPaired)",
+                "argument": "",
+                "showArgument": false
+            }
+        }
+    ],
+    "outputs": [
+        {
+            "id": "assembly",
+            "value": {
+                "default": "out/meta-velvetg.contigs.fa",
+                "order": 0,
+                "required": false,
+                "validator": "",
+                "visible": true
+            },
+            "semantics": {
+                "ontology": [],
+                "minCardinality": 1,
+                "fileTypes": [
+                    "raw-0"
+                ]
+            },
+            "details": {
+                "description": "",
+                "label": "Final assembly",
+                "argument": null,
+                "showArgument": false
+            }
+        }
+    ]
+}

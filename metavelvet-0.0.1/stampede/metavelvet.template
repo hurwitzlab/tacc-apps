@@ -1,0 +1,56 @@
+KMER_SIZE=${kmerSize}
+INS_LENGTH=${insLength}
+INPUT_FILE_FORMAT=${inputFileFormat}
+INPUT_READ_CATEGORY=${inputReadCategory}
+INPUT_TARBALL=${inputTarball}
+
+if [[ ! ${INPUT_FILE_FORMAT:0:1} == "-" ]]; then 
+    INPUT_FILE_FORMAT="-${INPUT_FILE_FORMAT}" 
+fi
+
+if [[ ! ${INPUT_READ_CATEGORY:0:1} == "-" ]]; then 
+    INPUT_READ_CATEGORY="-${INPUT_READ_CATEGORY}" 
+fi
+
+OUT_DIR='out'
+INPUT_DIR='input'
+
+tar -xvf bin.tgz
+
+export PATH=$PATH:"$PWD/bin"
+
+if [[ ! -d $INPUT_DIR ]]; then
+    mkdir $INPUT_DIR
+fi
+
+echo Untarring $INPUT_TARBALL
+tar -C $INPUT_DIR -zxvf $INPUT_TARBALL
+
+echo "velveth $OUT_DIR $KMER_SIZE $INPUT_FILE_FORMAT $INPUT_READ_CATEGORY"
+
+find $INPUT_DIR -type f | \
+  xargs velveth $OUT_DIR $KMER_SIZE $INPUT_FILE_FORMAT $INPUT_READ_CATEGORY 
+
+for FILE in Sequences Roadmaps
+do
+    if [[ ! -e "$OUT_DIR/$FILE" ]]; then
+        echo "Missing \"$FILE\" file after velveth"
+        exit;
+    fi
+done
+
+velvetg $OUT_DIR -exp_cov auto -ins_length $INS_LENGTH
+
+if [[ ! -e "$OUT_DIR/Graph2" ]]; then
+    echo "Missing 'Graph2' file after velvetg"
+    exit;
+fi
+
+meta-velvetg $OUT_DIR
+
+if [[ ! -e "$OUT_DIR/meta-velvetg.contigs.fa" ]]; then
+    echo "Missing 'meta-velvetg.contigs.fa' file after meta-velvetg"
+    exit;
+fi
+
+rm -rf bin
